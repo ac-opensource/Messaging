@@ -10,6 +10,7 @@ import com.hyperion.messaging.di.RestModule
 import com.hyperion.messaging.di.flux.DaggerFluxComponent
 import com.hyperion.messaging.di.flux.FluxComponent
 import com.pixplicity.easyprefs.library.Prefs
+import com.wonderkiln.blurkit.BlurKit
 
 class MyApplication : Application() {
 
@@ -19,6 +20,7 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        BlurKit.init(this)
         FacebookSdk.sdkInitialize(applicationContext)
         // Initialize the Prefs class
         Prefs.Builder()

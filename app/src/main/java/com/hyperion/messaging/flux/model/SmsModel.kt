@@ -80,7 +80,7 @@ class SmsModel(val context: Context) {
 
     fun lookForContact(conversation: Conversation): Conversation {
         if (TextUtils.isEmpty(conversation.address)) return conversation
-        var name: String = ""
+        var name: String? = null
         var contactId: Long? = null
         var lookupUri: Uri? = null
 
@@ -104,6 +104,7 @@ class SmsModel(val context: Context) {
 
         cursor.close()
 
-        return conversation.copy(name = name, contactLookupUri = lookupUri)
+
+        return conversation.copy(name = name ?: conversation.address, contactLookupUri = lookupUri)
     }
 }

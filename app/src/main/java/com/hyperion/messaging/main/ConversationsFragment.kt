@@ -59,7 +59,6 @@ class ConversationsFragment : Fragment() {
                     conversationAdapter.addConversations(it)
                     recyclerView.layoutManager = layoutManager
                     recyclerView.adapter = conversationAdapter
-                    Log.d("Heyyy", it.toString())
                 }, {
                     FirebaseCrash.logcat(Log.ERROR, TAG, "SMS Error Caught")
                     FirebaseCrash.report(it)

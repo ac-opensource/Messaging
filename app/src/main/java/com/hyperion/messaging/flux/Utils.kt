@@ -18,12 +18,12 @@ class Utils(context: Context) {
     }
 
     fun getError(throwable: Throwable): AppError {
+        FirebaseCrash.logcat(Log.ERROR, "Utils", "Error Caught")
+        FirebaseCrash.report(throwable)
         if (throwable !is HttpException) {
             return AppError.createNetwork(MSG_ERROR_NETWORK)
         }
         val response = throwable.response() ?: return AppError.createHttp(MSG_ERROR_DEFAULT)
-        FirebaseCrash.logcat(Log.ERROR, "AppError", "Error Caught")
-        FirebaseCrash.report(throwable)
         return AppError.createHttp(response.code(), -1, MSG_ERROR_DEFAULT)
     }
 }

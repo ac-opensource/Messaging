@@ -5,21 +5,25 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import com.hyperion.messaging.MyApplication
 import com.hyperion.messaging.R
 import com.hyperion.messaging.data.Conversation
 import com.hyperion.messaging.flux.BaseActivity
+import com.hyperion.messaging.flux.model.SmsModel
 import it.slyce.messaging.SlyceMessagingFragment
 import it.slyce.messaging.listeners.UserSendsMessageListener
 import it.slyce.messaging.message.Message
 import it.slyce.messaging.message.MessageSource
 import it.slyce.messaging.message.TextMessage
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import javax.inject.Inject
 
 
 class MessageActivity: BaseActivity() {
     private var n = 0
 
-//    @Inject lateinit var smsActionCreator: SmsActionCreator
+    @Inject lateinit var smsModel: SmsModel
 
     companion object {
         private val EXTRA_CONVERSATION = "EXTRA_CONVERSATION"
@@ -47,10 +51,20 @@ class MessageActivity: BaseActivity() {
         }
         return textMessage
     }
+
+    private var conversation: Conversation? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        MyApplication.fluxComponent.inject(this)
+        MyApplication.fluxComponent.inject(this)
         setContentView(R.layout.activity_message)
+
+        conversation = intent.getParcelableExtra<Conversation>(EXTRA_CONVERSATION)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        supportActionBar!!.setDisplayShowTitleEnabled(true)
+        supportActionBar!!.setDisplayUseLogoEnabled(true)
+        supportActionBar!!.title = conversation?.name
 
         val slyceMessagingFragment: SlyceMessagingFragment = fragmentManager.findFragmentById(R.id.messaging_fragment) as SlyceMessagingFragment
         slyceMessagingFragment.setDefaultAvatarUrl("https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/10989174_799389040149643_722795835011402620_n.jpg?oh=bff552835c414974cc446043ac3c70ca&oe=580717A5")
@@ -67,13 +81,8 @@ class MessageActivity: BaseActivity() {
             }
         })
 
-        slyceMessagingFragment.setLoadMoreMessagesListener {
-            val messages = mutableListOf<Message>()
-            for (i in 0..49)
-                messages.add(getRandomMessage())
-            messages
-        }
+        slyceMessagingFragment.addNewMessages(smsModel.getMessagesFromConversation(conversation!!))
 
-        slyceMessagingFragment.setMoreMessagesExist(true)
+        slyceMessagingFragment.setMoreMessagesExist(false)
     }
 }

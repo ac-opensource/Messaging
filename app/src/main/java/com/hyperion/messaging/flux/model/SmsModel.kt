@@ -7,6 +7,8 @@ import android.provider.Telephony.TextBasedSmsColumns.*
 import android.text.TextUtils
 import android.util.Log
 import com.hyperion.messaging.data.Conversation
+import it.slyce.messaging.message.MessageSource
+import it.slyce.messaging.message.TextMessage
 
 
 /**
@@ -63,6 +65,34 @@ class SmsModel(val context: Context) {
         }
         mCursor.close()
         return conversation.copy(address = number ?: "", date = date, isRead = read)
+    }
+
+    fun getMessagesFromConversation(conversation: Conversation) : List<TextMessage> {
+        var messages = mutableListOf<TextMessage>()
+        val where = "thread_id=" + conversation.threadId
+        val mCursor = context.contentResolver.query(Uri.withAppendedPath(SMS_CONVERSATIONS, conversation.threadId.toString()), null, where, null, "date desc")
+
+        if (mCursor.moveToFirst()) {
+            do {
+                Log.d("SMSModel", conversation.address + " : " + mCursor.getString(mCursor.getColumnIndexOrThrow(READ)))
+
+                val addressColumnIndex = mCursor.getColumnIndex(ADDRESS)
+                if (addressColumnIndex != -1) {
+                    mCursor.getString(addressColumnIndex) ?: ""
+                }
+
+                val textMessage = TextMessage()
+                textMessage.text = mCursor.getString(mCursor.getColumnIndexOrThrow(BODY))
+                textMessage.date = mCursor.getLong(mCursor.getColumnIndexOrThrow(DATE))
+                textMessage.avatarUrl = "https://lh3.googleusercontent.com/-Y86IN-vEObo/AAAAAAAAAAI/AAAAAAAKyAM/6bec6LqLXXA/s0-c-k-no-ns/photo.jpg"
+                textMessage.userId = mCursor.getString(mCursor.getColumnIndexOrThrow(ADDRESS))
+                val type = mCursor.getInt(mCursor.getColumnIndexOrThrow(TYPE))
+                textMessage.source = if (type == MESSAGE_TYPE_INBOX || type == MESSAGE_TYPE_ALL) MessageSource.EXTERNAL_USER else MessageSource.LOCAL_USER
+                messages.add(textMessage)
+            } while (mCursor.moveToNext())
+        }
+        messages.reverse()
+        return messages
     }
 
     fun lookForContact(conversation: Conversation): Conversation {

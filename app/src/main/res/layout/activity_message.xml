@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.Transparent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:background="@color/material_color_black_38_percent"
+            android:titleTextColor="@color/text_white"
+            android:elevation="@dimen/material_elevation_app_bar"
+            app:titleTextColor="@color/text_white"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
+    </android.support.design.widget.AppBarLayout>
+
     <fragment
+        android:layout_marginTop="?attr/actionBarSize"
         android:name="it.slyce.messaging.SlyceMessagingFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/messaging_fragment"/>
-</LinearLayout>
+        android:id="@+id/messaging_fragment" />
+
+</android.support.design.widget.CoordinatorLayout>

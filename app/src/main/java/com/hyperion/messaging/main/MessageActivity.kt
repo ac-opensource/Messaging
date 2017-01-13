@@ -50,9 +50,7 @@ class MessageActivity: BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        MyApplication.fluxComponent.inject(this)
-        setContentView(R.layout.activity_main)
-
-
+        setContentView(R.layout.activity_message)
 
         val slyceMessagingFragment: SlyceMessagingFragment = fragmentManager.findFragmentById(R.id.messaging_fragment) as SlyceMessagingFragment
         slyceMessagingFragment.setDefaultAvatarUrl("https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/10989174_799389040149643_722795835011402620_n.jpg?oh=bff552835c414974cc446043ac3c70ca&oe=580717A5")

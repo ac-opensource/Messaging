@@ -3,7 +3,11 @@ package com.hyperion.messaging.main
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.provider.ContactsContract
+import android.text.Html
+import android.text.format.DateUtils
+import android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -39,8 +43,9 @@ class ConversationModel(private val conversation: Conversation, private val onCl
         return R.layout.conversation_model
     }
 
-    override fun bind(convesationView: ConversationView?) {
-        convesationView?.data = conversation
+    override fun bind(conversationView: ConversationView?) {
+        conversationView?.data = conversation
+        conversationView?.setOnClickListener(onClickListener)
     }
 
 }
@@ -52,7 +57,7 @@ class ConversationView(context: Context, attrs: AttributeSet) : LinearLayout(con
             contactImage = value?.contactLookupUri
             conversationName = value?.name
             snippet = value?.snippet
-            date = value?.date.toString()
+            date = DateUtils.getRelativeTimeSpanString(value?.date!!, System.currentTimeMillis(), 0, FORMAT_ABBREV_RELATIVE)
 
         }
 
@@ -69,10 +74,11 @@ class ConversationView(context: Context, attrs: AttributeSet) : LinearLayout(con
         set (value) {
             field = value
             value ?: return
-            if (value == "") {
-                conversationNameTextView.text = "[DRAFT]"
+            val textColor = if (data?.isRead!!) { "#FFFFFF" } else { "#00FFFF" }
+            if (Build.VERSION.SDK_INT >= 24) {
+                conversationNameTextView.text = Html.fromHtml("<font color='$textColor'>${if (value == "") "[DRAFT]" else value}</font>", Html.FROM_HTML_MODE_LEGACY)
             } else {
-                conversationNameTextView.text = value
+                conversationNameTextView.text = Html.fromHtml("<font color='$textColor'>${if (value == "") "[DRAFT]" else value}</font>")
             }
         }
 
@@ -83,7 +89,7 @@ class ConversationView(context: Context, attrs: AttributeSet) : LinearLayout(con
             snippetTextView.text = value
         }
 
-    var date: String? = null
+    var date: CharSequence? = null
         set(value) {
             field = value
             value ?: return

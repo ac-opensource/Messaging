@@ -5,6 +5,7 @@ import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.Telephony.TextBasedSmsColumns.*
 import android.text.TextUtils
+import android.util.Log
 import com.hyperion.messaging.data.Conversation
 
 
@@ -50,6 +51,8 @@ class SmsModel(val context: Context) {
         var date: Long = 0
         var read: Boolean = false
         if (mCursor.moveToFirst()) {
+            Log.d("SMSModel", conversation.address + " : " + mCursor.getString(mCursor.getColumnIndexOrThrow(READ)))
+
             val addressColumnIndex = mCursor.getColumnIndex(ADDRESS)
             if (addressColumnIndex != -1) {
                 number = mCursor.getString(addressColumnIndex) ?: ""

@@ -1,11 +1,12 @@
 package com.hyperion.messaging.flux.store
 
+import com.hyperion.messaging.data.ConversationList
 import com.hyperion.messaging.flux.Action
 import com.hyperion.messaging.flux.AppError
 import com.hyperion.messaging.flux.Store
-import com.hyperion.messaging.flux.action.UserActionCreator
-import com.hyperion.messaging.flux.action.UserActionCreator.Companion.ACTION_INITIALIZE_USER
-import com.hyperion.messaging.flux.action.UserActionCreator.Companion.ACTION_LOGIN_SUCCESS
+import com.hyperion.messaging.flux.action.SmsActionCreator
+import com.hyperion.messaging.flux.action.SmsActionCreator.Companion.ACTION_GET_CONVERSATIONS_SUCESS
+import com.hyperion.messaging.flux.action.SmsActionCreator.Companion.ACTION_INITIALIZE_CONVERSATIONS
 import rx.Observable
 
 /**
@@ -13,35 +14,32 @@ import rx.Observable
  * *
  * @createdAt 17/08/2016
  */
-class UserStore : Store<UserStore>() {
+class SmsStore : Store<SmsStore>() {
 
-//    private var mUser: UserIdentity? = null
+    var conversationList: ConversationList? = null
     private var mError: AppError? = null
-    @UserActionCreator.UserAction
-    private var mAction = Action.ACTION_NO_ACTION
 
-//    fun user(): UserIdentity? {
-//        return mUser
-//    }
+    @SmsActionCreator.SmsAction
+    private var mAction = Action.ACTION_NO_ACTION
 
     fun error(): AppError? {
         return mError
     }
 
-    @UserActionCreator.UserAction
+    @SmsActionCreator.SmsAction
     fun action(): String {
         return mAction
     }
 
-    fun observableWithFilter(action: String): Observable<UserStore> {
+    fun observableWithFilter(action: String): Observable<SmsStore> {
         return observable().filter { action == it.action() }
     }
 
     override fun onReceiveAction(action: Action) {
         when (action.type) {
-            ACTION_INITIALIZE_USER, ACTION_LOGIN_SUCCESS -> {
+            ACTION_INITIALIZE_CONVERSATIONS, ACTION_GET_CONVERSATIONS_SUCESS -> {
                 updateState()
-//                updateUser(action)
+                updateConversation(action)
                 updateError(action)
                 updateAction(action)
                 notifyStoreChanged(this)
@@ -49,15 +47,19 @@ class UserStore : Store<UserStore>() {
         }
     }
 
+    fun conversationList(): ConversationList? {
+        return conversationList
+    }
+
+    private fun updateConversation(action: Action) {
+        if (action.data != null && action.data is ConversationList) {
+            conversationList = action.data
+        }
+    }
+
     private fun updateState() {
         mError = null
     }
-
-//    private fun updateUser(action: Action) {
-//        if (action.data != null && action.data is UserIdentity) {
-//            mUser = action.data as UserIdentity?
-//        }
-//    }
 
     private fun updateError(action: Action) {
         if (action.data != null && action.data is AppError) {

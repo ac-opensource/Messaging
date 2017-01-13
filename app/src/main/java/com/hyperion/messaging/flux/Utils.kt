@@ -1,6 +1,8 @@
 package com.hyperion.messaging.flux
 
 import android.content.Context
+import android.util.Log
+import com.google.firebase.crash.FirebaseCrash
 import retrofit2.adapter.rxjava.HttpException
 
 /**
@@ -20,6 +22,8 @@ class Utils(context: Context) {
             return AppError.createNetwork(MSG_ERROR_NETWORK)
         }
         val response = throwable.response() ?: return AppError.createHttp(MSG_ERROR_DEFAULT)
+        FirebaseCrash.logcat(Log.ERROR, "AppError", "Error Caught")
+        FirebaseCrash.report(throwable)
         return AppError.createHttp(response.code(), -1, MSG_ERROR_DEFAULT)
     }
 }

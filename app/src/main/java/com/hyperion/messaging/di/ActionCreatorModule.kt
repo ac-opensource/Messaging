@@ -2,8 +2,8 @@ package com.hyperion.messaging.di
 
 import com.hyperion.messaging.flux.Dispatcher
 import com.hyperion.messaging.flux.Utils
-import com.hyperion.messaging.flux.action.UserActionCreator
-import com.hyperion.messaging.flux.model.UserModel
+import com.hyperion.messaging.flux.action.SmsActionCreator
+import com.hyperion.messaging.flux.model.SmsModel
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -16,8 +16,8 @@ class ActionCreatorModule {
 
     @Singleton @Provides
     fun providesUserActionCreator(dispatcher: Dispatcher,
-                                           userModel: UserModel,
-                                           utils: Utils): UserActionCreator {
-        return UserActionCreator(dispatcher, userModel, utils)
+                                           smsModel: SmsModel,
+                                           utils: Utils): SmsActionCreator {
+        return SmsActionCreator(dispatcher, smsModel, utils)
     }
 }

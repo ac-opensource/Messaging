@@ -48,9 +48,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
 
-    compile "com.google.android.gms:play-services-places:$rootProject.playServicesVersion"
-    compile "com.google.firebase:firebase-crash:$rootProject.playServicesVersion"
-    compile "com.google.android.gms:play-services-maps:$rootProject.playServicesVersion"
+    compile 'com.google.firebase:firebase-crash:10.0.1'
 
     // Dagger 2
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"

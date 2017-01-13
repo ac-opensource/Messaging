@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "126825157838",
+    "firebase_url": "https://hyperion-messaging.firebaseio.com",
+    "project_id": "hyperion-messaging",
+    "storage_bucket": "hyperion-messaging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126825157838:android:1903f507e8beae77",
+        "android_client_info": {
+          "package_name": "com.hyperion.messaging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126825157838-n00jen82065tgqa0t3oeur4fl53d9p93.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hyperion.messaging",
+            "certificate_hash": "36D56D74A9C3C39E6DAC2EB19BE886F288BA7760"
+          }
+        },
+        {
+          "client_id": "126825157838-2hofmpgtaf4rl27q0ttmg6p5gdibkgi5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9dg2e20gfxEH0fPL0Y3U00wd4Mf4QdW8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126825157838-2hofmpgtaf4rl27q0ttmg6p5gdibkgi5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

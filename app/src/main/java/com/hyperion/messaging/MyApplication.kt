@@ -4,13 +4,10 @@ import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import android.support.multidex.MultiDex
-import com.facebook.FacebookSdk
 import com.hyperion.messaging.di.AppModule
-import com.hyperion.messaging.di.RestModule
 import com.hyperion.messaging.di.flux.DaggerFluxComponent
 import com.hyperion.messaging.di.flux.FluxComponent
 import com.pixplicity.easyprefs.library.Prefs
-import com.wonderkiln.blurkit.BlurKit
 
 class MyApplication : Application() {
 
@@ -20,8 +17,6 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        BlurKit.init(this)
-        FacebookSdk.sdkInitialize(applicationContext)
         // Initialize the Prefs class
         Prefs.Builder()
                 .setContext(this)
@@ -32,7 +27,6 @@ class MyApplication : Application() {
 
         fluxComponent = DaggerFluxComponent.builder()
                 .appModule(AppModule(this))
-                .restModule(RestModule())
                 .build()
     }
 

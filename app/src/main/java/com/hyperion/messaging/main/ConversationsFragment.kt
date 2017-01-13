@@ -8,12 +8,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.crash.FirebaseCrash
+import com.hyperion.messaging.MyApplication
 import com.hyperion.messaging.R
-import com.hyperion.messaging.flux.model.SmsModel
+import com.hyperion.messaging.flux.action.SmsActionCreator
+import com.hyperion.messaging.flux.store.SmsStore
 import com.tbruyelle.rxpermissions.RxPermissions
 import kotlinx.android.synthetic.main.fragment_message_list.*
-import rx.Observable
-
+import javax.inject.Inject
 
 
 /**
@@ -26,8 +28,14 @@ import rx.Observable
  */
 class ConversationsFragment : Fragment() {
 
+    @Inject lateinit var smsActionCreator: SmsActionCreator
+    @Inject lateinit var smsStore: SmsStore
+
+    private val TAG: String = ConversationsFragment::class.java.simpleName
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MyApplication.fluxComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -38,25 +46,24 @@ class ConversationsFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val conversationAdapter = ConversationsAdapter(View.OnClickListener { })
+        val conversationAdapter = ConversationsAdapter(View.OnClickListener {
+            val data = (it as ConversationView).data
+            MessageActivity.startActivity(context, data!!)
+        })
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-        val smsModel = SmsModel(activity)
         RxPermissions(activity).request(Manifest.permission.READ_SMS)
-                .map { smsModel.getConversationIds() }
-                .flatMap { Observable.from(it) }
-                .map { smsModel.fillConversationDetails(it) }
-                .map { smsModel.lookForContact(it) }
+                .flatMap { smsStore.observableWithFilter(SmsActionCreator.ACTION_GET_CONVERSATIONS_SUCESS) }
+                .map { it.conversationList()?.conversations }
                 .subscribe({
-                    conversationAdapter.addConversation(it)
+                    it ?: return@subscribe
+                    conversationAdapter.addConversations(it)
                     recyclerView.layoutManager = layoutManager
                     recyclerView.adapter = conversationAdapter
                     Log.d("Heyyy", it.toString())
                 }, {
-                    Log.e("Heyyy error", it.message, it)
+                    FirebaseCrash.logcat(Log.ERROR, TAG, "SMS Error Caught")
+                    FirebaseCrash.report(it)
                 })
-
-
+        smsActionCreator.getConversations()
     }
 }

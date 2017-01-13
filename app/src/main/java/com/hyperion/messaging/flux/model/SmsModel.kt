@@ -40,22 +40,6 @@ class SmsModel(val context: Context) {
         mCursor.close()
 
         return conversations
-//
-//        val conversationIds = HashSet<Int>()
-//        val numbers = "+xxxxxxxxxx,+yyyyyyyyyy"
-//
-//        val PROJECTION = arrayOf(Sms._ID, Sms.THREAD_ID)
-//        val SELECTION = Sms.ADDRESS + " IN (" + numbers.replace("[^,]+".toRegex(), "?") + ")"
-//        val selectionArgs = numbers.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-//
-//        val cursor = context.contentResolver.query(Sms.CONTENT_URI, PROJECTION, SELECTION, selectionArgs, null)
-//        val threadColumn = cursor.getColumnIndexOrThrow(Sms.THREAD_ID)
-//
-//        while (cursor.moveToNext())
-//            conversationIds.add(cursor.getInt(threadColumn))
-//        cursor.close()
-//
-//        return conversationIds
     }
 
     fun fillConversationDetails(conversation: Conversation): Conversation {

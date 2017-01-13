@@ -1,7 +1,7 @@
 package com.hyperion.messaging.di
 
-import com.hyperion.messaging.api.RestApi
-import com.hyperion.messaging.flux.model.UserModel
+import android.content.Context
+import com.hyperion.messaging.flux.model.SmsModel
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -11,7 +11,7 @@ class ModelModule {
 
     @Singleton
     @Provides
-    fun providesUserModel(restApi: RestApi): UserModel {
-        return UserModel(restApi)
+    fun providesSmsModel(context: Context): SmsModel {
+        return SmsModel(context)
     }
 }

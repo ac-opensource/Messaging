@@ -1,6 +1,10 @@
 package com.hyperion.messaging.di.flux;
 
-import com.hyperion.messaging.di.*
+import com.hyperion.messaging.di.ActionCreatorModule
+import com.hyperion.messaging.di.AppModule
+import com.hyperion.messaging.di.ModelModule
+import com.hyperion.messaging.di.StoreModule
+import com.hyperion.messaging.main.ConversationsFragment
 import com.hyperion.messaging.main.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -9,12 +13,12 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(
         ActionCreatorModule::class,
         AppModule::class,
-        RestModule::class,
         ModelModule::class,
         StoreModule::class)
 )
 interface FluxComponent {
 
     fun inject(mainActivity: MainActivity)
+    fun inject(conversationsFragment: ConversationsFragment)
 
 }

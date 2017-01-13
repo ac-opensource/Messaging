@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.conversation_list_view_item.view.*
  */
 
 class ConversationsAdapter(var onClickListener: View.OnClickListener) : EpoxyAdapter() {
-    fun addConversations(conversations: Collection<Conversation>) {
+    fun addConversations(conversations: List<Conversation>) {
         for (conversation in conversations) {
             addModel(ConversationModel(conversation, onClickListener))
         }

@@ -8,6 +8,7 @@ import android.os.Bundle
 import com.hyperion.messaging.MyApplication
 import com.hyperion.messaging.R
 import com.hyperion.messaging.flux.BaseActivity
+import com.hyperion.messaging.util.ActivityExtensions.Companion.getScaledBitMapBasedOnScreenSize
 import com.hyperion.messaging.util.BlurBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -29,14 +30,16 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
-        supportActionBar!!.setDisplayShowTitleEnabled(true)
-        supportActionBar!!.setDisplayUseLogoEnabled(true)
-        supportActionBar!!.title = "Messaging"
+        supportActionBar?.let {
+            it.setDisplayShowHomeEnabled(true)
+            it.setDisplayShowTitleEnabled(true)
+            it.setDisplayUseLogoEnabled(true)
+            it.title = "Messaging"
+        }
 
         val wallpaperManager = WallpaperManager.getInstance(this)
         val wallpaperBitmap = (wallpaperManager.drawable as BitmapDrawable).bitmap
-        backgroundBlurred.setImageBitmap(BlurBuilder.blur(this, wallpaperBitmap))
+        backgroundBlurred.setImageBitmap(BlurBuilder.blur(this, getScaledBitMapBasedOnScreenSize(wallpaperBitmap)))
         supportFragmentManager.beginTransaction().add(R.id.containerView, ConversationsFragment()).commit()
 
     }
@@ -45,4 +48,6 @@ class MainActivity : BaseActivity() {
         super.onResume()
 
     }
+
+
 }

@@ -51,9 +51,8 @@ class ConversationsFragment : Fragment() {
             MessageActivity.startActivity(context, data!!)
         })
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        RxPermissions(activity).request(Manifest.permission.READ_SMS)
-                .flatMap { smsStore.observableWithFilter(SmsActionCreator.ACTION_GET_CONVERSATIONS_SUCESS) }
-                .map { it.conversationList()?.conversations }
+        smsStore.observableWithFilter(SmsActionCreator.ACTION_GET_CONVERSATIONS_SUCESS)
+                .map { it.conversationList?.conversations }
                 .subscribe({
                     it ?: return@subscribe
                     conversationAdapter.addConversations(it)
@@ -63,6 +62,14 @@ class ConversationsFragment : Fragment() {
                     FirebaseCrash.logcat(Log.ERROR, TAG, "SMS Error Caught")
                     FirebaseCrash.report(it)
                 })
-        smsActionCreator.getConversations()
+
+        RxPermissions(activity).request(Manifest.permission.READ_SMS, Manifest.permission.READ_CONTACTS)
+                .filter { it }
+                .subscribe({
+                    smsActionCreator.getConversations()
+                }, {
+                    FirebaseCrash.logcat(Log.ERROR, TAG, "Permissions Error Caught")
+                    FirebaseCrash.report(it)
+                })
     }
 }

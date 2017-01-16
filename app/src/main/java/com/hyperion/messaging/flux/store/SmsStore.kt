@@ -17,6 +17,7 @@ import rx.Observable
 class SmsStore : Store<SmsStore>() {
 
     var conversationList: ConversationList? = null
+        private set
     private var mError: AppError? = null
 
     @SmsActionCreator.SmsAction
@@ -45,10 +46,6 @@ class SmsStore : Store<SmsStore>() {
                 notifyStoreChanged(this)
             }
         }
-    }
-
-    fun conversationList(): ConversationList? {
-        return conversationList
     }
 
     private fun updateConversation(action: Action) {

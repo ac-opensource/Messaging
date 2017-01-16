@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -12,6 +12,13 @@
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.wonderkiln.blurkit.BlurLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:blurRadius="15"
+        app:downscaleFactor="0.12"
+        app:fps="0" />
 
     <android.support.design.widget.CoordinatorLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -26,7 +33,7 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:background="@color/material_color_black_38_percent"
+                android:background="@color/material_color_black_12_percent"
                 android:titleTextColor="@color/text_white"
                 android:elevation="@dimen/material_elevation_app_bar"
                 app:titleTextColor="@color/text_white"

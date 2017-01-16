@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinatorLayoutView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/backgroundBlurred"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -23,6 +30,8 @@
     <fragment
         android:layout_marginTop="?attr/actionBarSize"
         android:name="it.slyce.messaging.SlyceMessagingFragment"
+        android:background="@android:color/transparent"
+        app:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/messaging_fragment" />

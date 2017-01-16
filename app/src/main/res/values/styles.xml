@@ -23,6 +23,20 @@
         <item name="background">@android:color/transparent</item>
         <item name="windowActionBarOverlay">true</item>
     </style>
+
+    <style name="SlyceTransparent">
+        <item name="snackbarButtonColor">@color/text_blue</item>
+        <item name="timestampTextColor">@color/text_white</item>
+        <item name="localBubbleBackground">@color/background_blue</item>
+        <item name="localBubbleTextColor">@color/text_white</item>
+        <item name="externalBubbleBackground">@color/background_gray</item>
+        <item name="backgroundColor">@android:color/transparent</item>
+        <item name="externalBubbleTextColor">@color/text_black</item>
+        <item name="snackbarBackground">@color/background_gray_darkest</item>
+        <item name="snackbarTitleColor">@color/text_black</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
     <style name="ThemeOverlay.AppTheme.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <!-- title text color -->
         <item name="android:background">@android:color/transparent</item>

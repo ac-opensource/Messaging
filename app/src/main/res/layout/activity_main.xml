@@ -13,12 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.wonderkiln.blurkit.BlurLayout
+    <View
+        android:background="@color/material_color_black_38_percent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:blurRadius="15"
-        app:downscaleFactor="0.12"
-        app:fps="0" />
+        android:layout_height="match_parent"/>
 
     <android.support.design.widget.CoordinatorLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"

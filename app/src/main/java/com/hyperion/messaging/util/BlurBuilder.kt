@@ -9,7 +9,7 @@ import android.support.v8.renderscript.ScriptIntrinsicBlur
 
 object BlurBuilder {
     private val BITMAP_SCALE = 0.5f
-    private val BLUR_RADIUS = 15f
+    private val BLUR_RADIUS = 25f
 
     fun blur(context: Context, image: Bitmap): Bitmap {
         val width = Math.round(image.width * BITMAP_SCALE)

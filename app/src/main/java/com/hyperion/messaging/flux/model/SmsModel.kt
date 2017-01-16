@@ -22,10 +22,10 @@ import it.slyce.messaging.message.TextMessage
 class SmsModel(val context: Context) {
 
     var SMS_CONVERSATIONS = Uri.parse("content://sms/conversations/")!!
-    var SMS_INBOX = Uri.parse("content://sms/inbox")!!
 
-    fun getConversationIds(): Set<Conversation> {
-        val mCursor = context.contentResolver.query(SMS_CONVERSATIONS, null, null, null, "date desc")
+    fun getConversationIds(limit: Int = 50, offset: Int = 0): Set<Conversation> {
+        val mCursor = context.contentResolver.query(SMS_CONVERSATIONS,
+                null, null, null, "date desc limit $limit offset $offset")
         val count = arrayOfNulls<String>(mCursor.count)
         val snippet = arrayOfNulls<String>(mCursor.count)
         val thread_id = arrayOfNulls<Int>(mCursor.count)

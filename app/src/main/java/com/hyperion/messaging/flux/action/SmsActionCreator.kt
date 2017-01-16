@@ -33,8 +33,8 @@ class SmsActionCreator(private val mDispatcher: Dispatcher, private val smsModel
         mDispatcher.dispatch(Action(ACTION_INITIALIZE_CONVERSATIONS, Unit))
     }
 
-    fun getConversations() {
-        Observable.just(smsModel.getConversationIds())
+    fun getConversations(page: Int = 0) {
+        Observable.just(smsModel.getConversationIds(offset = page * 50))
                 .flatMap { Observable.from(it) }
                 .map { smsModel.fillConversationDetails(it) }
                 .map { smsModel.lookForContact(it) }

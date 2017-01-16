@@ -6,7 +6,7 @@ apply plugin: 'com.google.firebase.firebase-crash'
 // Manifest version information!
 def versionMajor = 0
 def versionMinor = 3
-def versionPatch = 3
+def versionPatch = 5
 def versionBuild = 0
 
 android {

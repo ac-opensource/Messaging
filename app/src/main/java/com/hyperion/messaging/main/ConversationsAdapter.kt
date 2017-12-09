@@ -28,14 +28,22 @@ import kotlinx.android.synthetic.main.conversation_list_view_item.view.*
  */
 
 class ConversationsAdapter(var onClickListener: View.OnClickListener) : EpoxyAdapter() {
+
+    var conversationHash = mutableMapOf<Int, ConversationModel>()
+
     fun addConversations(conversations: List<Conversation>) {
         for (conversation in conversations) {
-            addModel(ConversationModel(conversation, onClickListener))
+            val conversationModel = ConversationModel(conversation, onClickListener)
+            conversationHash.put(conversation.threadId, conversationModel)
+            addModel(conversationModel)
         }
     }
     fun addConversation(conversation: Conversation) {
-        addModel(ConversationModel(conversation, onClickListener))
+        val conversationModel = ConversationModel(conversation, onClickListener)
+        conversationHash.put(conversation.threadId, conversationModel)
+        addModel(conversationModel)
     }
+
 }
 
 class ConversationModel(private val conversation: Conversation, private val onClickListener: View.OnClickListener) : EpoxyModel<ConversationView>() {

@@ -11,6 +11,8 @@ import it.slyce.messaging.message.MessageSource
 import it.slyce.messaging.message.TextMessage
 
 
+
+
 /**
  *
  *
@@ -30,7 +32,7 @@ class SmsModel(val context: Context) {
         val snippet = arrayOfNulls<String>(mCursor.count)
         val thread_id = arrayOfNulls<Int>(mCursor.count)
 
-        var conversations = mutableSetOf<Conversation>()
+        val conversations = mutableSetOf<Conversation>()
 
         if (!mCursor.moveToFirst()) return emptySet()
         for (i in 0..mCursor.count - 1) {
@@ -43,6 +45,15 @@ class SmsModel(val context: Context) {
         mCursor.close()
 
         return conversations
+    }
+
+    fun getConversationByPhoneNumber(context: Context, number: String): Conversation? {
+        val cursor = context.contentResolver.query(SMS_CONVERSATIONS, null, "thread_id IS NOT NULL) GROUP BY (thread_id AND address=?", arrayOf(number), "date DESC")
+        if (cursor.moveToFirst()) {
+            cursor.close()
+            return Conversation(threadId = cursor.getInt(cursor.getColumnIndex("thread_id")))
+        }
+        return null
     }
 
     fun fillConversationDetails(conversation: Conversation): Conversation {
@@ -67,10 +78,13 @@ class SmsModel(val context: Context) {
         return conversation.copy(address = number ?: "", date = date, isRead = read)
     }
 
-    fun getMessagesFromConversation(conversation: Conversation) : List<TextMessage> {
-        var messages = mutableListOf<TextMessage>()
+    fun getMessagesFromConversation(conversation: Conversation, page: Int = 0) : List<TextMessage> {
+        val messages = mutableListOf<TextMessage>()
         val where = "thread_id=" + conversation.threadId
-        val mCursor = context.contentResolver.query(Uri.withAppendedPath(SMS_CONVERSATIONS, conversation.threadId.toString()), null, where, null, "date desc")
+        val limit = 50
+        val offset = page * 50
+        val mCursor = context.contentResolver.query(Uri.withAppendedPath(SMS_CONVERSATIONS, conversation.threadId.toString()), null, where, null,
+                "date desc limit $limit offset $offset")
 
         if (mCursor.moveToFirst()) {
             do {

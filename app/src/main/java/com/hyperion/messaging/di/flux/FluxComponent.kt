@@ -7,6 +7,7 @@ import com.hyperion.messaging.di.StoreModule
 import com.hyperion.messaging.main.ConversationsFragment
 import com.hyperion.messaging.main.MainActivity
 import com.hyperion.messaging.main.MessageActivity
+import com.hyperion.messaging.receiver.SmsReceiver
 import dagger.Component
 import javax.inject.Singleton
 
@@ -22,5 +23,6 @@ interface FluxComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(messageActivity: MessageActivity)
     fun inject(conversationsFragment: ConversationsFragment)
+    fun inject(smsReceiver: SmsReceiver)
 
 }
